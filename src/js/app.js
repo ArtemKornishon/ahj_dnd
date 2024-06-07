@@ -21,7 +21,8 @@ mainContainer.addEventListener('click', function(event) {
     } 
 });
 
-function dragStart () {
+function dragStart (e) {
+    e.dataTransfer.setData('text/plain', e.target.id);
     this.classList.add("is-dragging");
 };
 
@@ -57,6 +58,10 @@ for (const column of columns) {
 function drop (e) {
     e.preventDefault();
     this.classList = 'column'
-    this.append(task)
+    const id = e.dataTransfer.getData('text/plain');
+    const draggableElement = document.getElementById(id);
+    console.log(draggableElement)
+    console.log(id)
+    this.append(draggableElement)
 };
 
