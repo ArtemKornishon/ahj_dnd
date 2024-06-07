@@ -9,8 +9,10 @@ const tasks = document.querySelectorAll('.column__card')
 
 addButton.addEventListener('click', function() {
     const newColumnCard = document.createElement('div');
-    columnTitle.insertAdjacentHTML("afterEnd", '<div class="column__card" draggable="true"><div class="column__card-content">Здесь будут прописаны задачи</div><button class="column__card-button"></button></div>')
+    const randomId = 'card-' + Math.random().toString(36).substring(2, 9); 
+    columnTitle.insertAdjacentHTML("afterEnd", `<div class="column__card" draggable="true" id="${randomId}"><div class="column__card-content">Здесь будут прописаны задачи</div><button class="column__card-button"></button></div>`);
 });
+
 
 mainContainer.addEventListener('click', function(event) {
     if (event.target.classList.contains('column__card-button')) {
@@ -22,7 +24,7 @@ mainContainer.addEventListener('click', function(event) {
 });
 
 function dragStart (e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
+    e.dataTransfer.setData('text/plain', e.target.getAttribute('id'));
     this.classList.add("is-dragging");
 };
 
@@ -59,9 +61,7 @@ function drop (e) {
     e.preventDefault();
     this.classList = 'column'
     const id = e.dataTransfer.getData('text/plain');
-    const draggableElement = document.getElementById(id);
-    console.log(draggableElement)
     console.log(id)
-    this.append(draggableElement)
+    e.target.append(document.getElementById(id))
 };
 
