@@ -1,6 +1,7 @@
 body {
 background: rgb(122,192,255);
 background: linear-gradient(0deg, rgba(122,192,255,1) 0%, rgba(48,163,255,1) 54%, rgba(0,138,255,1) 100%);
+background-attachment: fixed;
 }
 
 .main_container {
@@ -24,12 +25,23 @@ background: linear-gradient(0deg, rgba(122,192,255,1) 0%, rgba(48,163,255,1) 54%
 
 .column__card {
     display: flex;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     max-width: 405px;
     margin-left: 16px;
     border-radius: 3px;
     justify-content: space-between;
-    margin-bottom: 140px;
+    margin-bottom: 40px;
+}
+
+.todo_container {
+    background-color: #DDDFE7;
+    margin: 0 auto;
+    border-radius: 4px;
+    min-width: 436px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .adding_card {
@@ -39,6 +51,7 @@ background: linear-gradient(0deg, rgba(122,192,255,1) 0%, rgba(48,163,255,1) 54%
 
 .column__card-content {
     margin: 16px;
+    word-break: break-all;
 }
 
 .column__card-button {
@@ -131,4 +144,10 @@ background: linear-gradient(0deg, rgba(122,192,255,1) 0%, rgba(48,163,255,1) 54%
 
     .column__card:hover {
         cursor: grab;
+    }
+
+    .hovered {
+        opacity: 0.4;
+        transform: translate3d(0, 0, 0); 
+        transition: transform 0ms, opacity 0ms; 
     }
