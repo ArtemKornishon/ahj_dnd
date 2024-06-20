@@ -47,10 +47,21 @@ function dragEnter(e) {
 
 function dragLeave() {
   this.classList.remove('hovered');
+  
 };
 
 function dragOver(e) {
   e.preventDefault();
+  if (e.target.classList.contains("column")) {
+    let nextCard = actualCard.nextElementSibling
+    console.log(nextCard)
+    if (nextCard && nextCard.classList.contains("column__card")) {
+        e.target.insertBefore(this, nextCard);
+    } else {
+      this.appendChild(actualCard);
+    }
+}
+this.classList = 'column';
 };
 
 for (const column of columns) {
@@ -62,14 +73,11 @@ for (const column of columns) {
   column.addEventListener('dragend', dragEnd);
 }
 
-
 function drop(e) {
-    e.preventDefault();
-    e.target.appendChild(actualCard);
-    this.classList = 'column'
-    actualCard.classList.remove("is-dragging");
-    actualCard = null;
-    updateLocalStorage()
+  e.preventDefault();
+  actualCard.classList.remove("is-dragging");
+  actualCard = null;
+  updateLocalStorage();
 };
 
 function updateLocalStorage() {
