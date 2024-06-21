@@ -147,7 +147,5 @@ background-attachment: fixed;
     }
 
     .hovered {
-        opacity: 0.4;
-        transform: translate3d(0, 0, 0); 
-        transition: transform 0ms, opacity 0ms; 
+
     }

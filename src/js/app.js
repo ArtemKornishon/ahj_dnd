@@ -7,17 +7,18 @@ const mainContainer = document.querySelector('.main_container')
 const toDoContainer = document.querySelector('.todo_container')
 let actualCard = null;
 const tasks = document.querySelectorAll('.column__card')
+const areatxt = document.getElementById('textareaid')
 
-  window.onload = loadFromLocalStorage();
-  
+window.onload = loadFromLocalStorage();
 
 addButton.addEventListener('click', function() {
-  let columnCardText = document.getElementById('textareaid').value;
-  const newColumnCard = `<div class="column__card" draggable="true"><div class="column__card-content">${columnCardText}</div><button class="column__card-button"></button></div>`
+  let columnCardText = areatxt.value;
+  areatxt.value = ''
+  const newColumnCard = `<div class="column__card" draggable="true"><div
+  class="column__card-content">${columnCardText}</div><button class="column__card-button"></button></div>`
   columnTitle.insertAdjacentHTML("afterEnd", newColumnCard);
-  updateLocalStorage()
+  updateLocalStorage();
 });
-
 
 mainContainer.addEventListener('click', function(event) {
   if (event.target.classList.contains('column__card-button')) {
@@ -26,18 +27,16 @@ mainContainer.addEventListener('click', function(event) {
       card.remove();
     }
   }
-  updateLocalStorage()
+  updateLocalStorage();
 });
 
 function dragStart(e) {
   actualCard = e.target
   e.target.classList.add("is-dragging");
-  console.log(this, 'start')
 };
 
 function dragEnd(e) {
-  this.classList = 'column';
-  console.log(this, 'end')
+  this.classList.remove('hovered');
 };
 
 function dragEnter(e) {
@@ -47,23 +46,46 @@ function dragEnter(e) {
 
 function dragLeave() {
   this.classList.remove('hovered');
-  
 };
 
 function dragOver(e) {
   e.preventDefault();
-  if (e.target.classList.contains("column")) {
-    let nextCard = actualCard.nextElementSibling
-    console.log(nextCard)
-    if (nextCard && nextCard.classList.contains("column__card")) {
-        e.target.insertBefore(this, nextCard);
-    } else {
-      this.appendChild(actualCard);
-    }
-}
-this.classList = 'column';
-};
+  const activeElement = mainContainer.querySelector(`.is-dragging`);
+  const currentElement = e.target;
+  
+  const isMoveable = activeElement !== currentElement && currentElement.classList.contains(`column__card`);
 
+  if (!isMoveable) {
+    if (e.target.classList.contains("column") && !this.contains(actualCard)) {
+      this.appendChild(actualCard);
+    }    
+    return;
+  }
+
+  const nextElement = getNextElement(e.clientY, currentElement);
+
+  if (
+    nextElement &&
+    activeElement === nextElement.previousElementSibling ||
+    activeElement === nextElement
+  ) {
+    return;
+  }
+
+  this.insertBefore(activeElement, nextElement);  
+  
+};
+const getNextElement = (cursorPosition, currentElement) => {
+
+  const currentElementCoord = currentElement.getBoundingClientRect();
+  const currentElementCenter = currentElementCoord.y + currentElementCoord.height / 2;
+
+  const nextElement = (cursorPosition < currentElementCenter) ?
+      currentElement :
+      currentElement.nextElementSibling;
+
+  return nextElement;
+};
 for (const column of columns) {
   column.addEventListener('dragenter', dragEnter);
   column.addEventListener('dragleave', dragLeave);
@@ -77,8 +99,10 @@ function drop(e) {
   e.preventDefault();
   actualCard.classList.remove("is-dragging");
   actualCard = null;
+  this.classList.remove('hovered');
   updateLocalStorage();
 };
+
 
 function updateLocalStorage() {
     const condition = [];
