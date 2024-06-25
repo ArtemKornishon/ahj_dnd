@@ -1,24 +1,30 @@
 const deleteButton = document.querySelectorAll('.column__card-button');
-const addButton = document.querySelector('.add_card')
+const addButton = document.querySelectorAll('.add_card')
 const cardContent = document.querySelector('.column__card-content_add')
 const columns = document.querySelectorAll('.column')
-const columnTitle = document.querySelector('.column_title')
 const mainContainer = document.querySelector('.main_container')
 const toDoContainer = document.querySelector('.todo_container')
 let actualCard = null;
 const tasks = document.querySelectorAll('.column__card')
-const areatxt = document.getElementById('textareaid')
 
 window.onload = loadFromLocalStorage();
 
-addButton.addEventListener('click', function() {
-  let columnCardText = areatxt.value;
-  areatxt.value = ''
-  const newColumnCard = `<div class="column__card" draggable="true"><div
-  class="column__card-content">${columnCardText}</div><button class="column__card-button"></button></div>`
-  columnTitle.insertAdjacentHTML("afterEnd", newColumnCard);
-  updateLocalStorage();
-});
+mainContainer.addEventListener('click', (e) => {
+  if (e.target.classList.contains("add_card")) {
+    const areatxt = e.target.previousElementSibling
+    let columnCardText = areatxt.value;
+    areatxt.value = '';
+    const newColumnCard = document.createElement('div');
+    newColumnCard.className = 'column__card';
+    newColumnCard.draggable = true;
+    newColumnCard.innerHTML = '<div class="column__card-content">' + columnCardText + '</div><button class="column__card-button"></button>';
+    let buttonContainer = e.target.parentNode;
+    let siblingEl = buttonContainer.previousElementSibling
+    siblingEl.appendChild(newColumnCard);
+    updateLocalStorage();
+  }
+})
+
 
 mainContainer.addEventListener('click', function(event) {
   if (event.target.classList.contains('column__card-button')) {
@@ -137,8 +143,6 @@ function updateLocalStorage() {
       }
     }
   };
-  
-  
   
   
   
