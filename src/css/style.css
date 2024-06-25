@@ -44,6 +44,28 @@ background-attachment: fixed;
     justify-content: space-between;
 }
 
+.inprog {
+    background-color: #DDDFE7;
+    margin: 0 auto;
+    border-radius: 4px;
+    min-width: 436px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.done {
+    background-color: #DDDFE7;
+    margin: 0 auto;
+    border-radius: 4px;
+    min-width: 436px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .adding_card {
     display: flex;
     justify-content: space-between;
